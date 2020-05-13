@@ -1,3 +1,4 @@
+
 # script of simple functions to do 
 # exploratory data analysis
 # will keep adding functions to this
@@ -27,10 +28,10 @@ def eda_plot_data(df, plot_type, target=None, max_cols=3, n_plots=9):
     if plot_type == 'dist':
         data_cols = df.select_dtypes(include='number').columns
 
-    if plot_type == 'count':
+    elif plot_type == 'count':
         data_cols = df.select_dtypes(exclude='number').columns
 
-    if plot_type == 'scatter' and target != None:
+    elif plot_type == 'scatter' and target != None:
         data_cols = df.select_dtypes(include='number').columns
     else:
         return "Please specify a target column"
@@ -94,3 +95,4 @@ def plot_correlations(df, target=None):
         ax.annotate('good correlation', xy=(2, 0.6))
         ax.annotate('weak correlation', xy=(2, 0.4))
         plt.xticks(rotation=90)
+
