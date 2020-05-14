@@ -91,7 +91,7 @@ def plot_correlations(df, target=None):
         f, ax = plt.subplots(figsize=(9, 6))
         ax.plot(corr.loc[target].abs().sort_values(), '*')
         ax.hlines(y=0.5, xmin=0, xmax=len(corr), linestyles='dashed')
-        ax.set_ylabel("correlation")
+        ax.set_ylabel("correlation with {}".format(target))
         ax.annotate('good correlation', xy=(2, 0.6))
         ax.annotate('weak correlation', xy=(2, 0.4))
         plt.xticks(rotation=90)
