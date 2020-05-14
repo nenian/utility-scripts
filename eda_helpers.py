@@ -22,7 +22,7 @@ def detailed_data_info(df):
 
 
 def eda_plot_data(df, plot_type, target=None, max_cols=3, n_plots=9):
-    plot_number = 1
+    
     n_rows = int(np.ceil(n_plots/max_cols))
 
     if plot_type == 'dist':
@@ -38,6 +38,7 @@ def eda_plot_data(df, plot_type, target=None, max_cols=3, n_plots=9):
 
     num_variables = len(data_cols)
 
+    plot_number = 1
     for x in range(0, num_variables, n_plots):
         # initialize subplots
         fig, axs = plt.subplots(n_rows, max_cols, \
@@ -57,9 +58,17 @@ def eda_plot_data(df, plot_type, target=None, max_cols=3, n_plots=9):
 
             elif plot_type == 'count':
                 # this can get messy with high cardinality
-                sns.countplot(df[col], ax=axs[i])
+                unique_categories = df[col].unique()
+                if len(unique_categories) <= 20:
+                    sns.countplot(df[col], ax=axs[i])
+                else:
+                    cats_to_plot = np.random.choice(unique_categories, 20)
+                    sns.countplot(df[col].loc[df[col].isin(cats_to_plot)], 
+                                ax=axs[i])
+                    axs[i].set_title(
+                        "feat. cardinality {}, random 20 plotted".format(
+                            len(unique_categories)))
                 axs[i].tick_params(labelrotation=90)
-
             elif plot_type == 'scatter':
                 sns.scatterplot(x=df[col], y=df[target], ax=axs[i], alpha=0.5)
 
@@ -95,4 +104,5 @@ def plot_correlations(df, target=None):
         ax.annotate('good correlation', xy=(2, 0.6))
         ax.annotate('weak correlation', xy=(2, 0.4))
         plt.xticks(rotation=90)
+
 
